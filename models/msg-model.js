@@ -14,8 +14,7 @@ const messageSchema = new mongoose.Schema({
     },
     request_id : {
         type: String,
-        default: uuid()
-        // required: true,
+        required: true,
     },
     user_id : {
         type : mongoose.Schema.Types.ObjectId,

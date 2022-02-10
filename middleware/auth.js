@@ -1,8 +1,10 @@
 const jwt = require('jsonwebtoken')
+require('../db/db')
 const User = require('../models/usermodel')
 
 const auth = async (req,res, next)=>{
     try{
+        
         if(req.headers.authorization==null){
         res.status(404).json({ 
             "status":"fail",
@@ -12,9 +14,9 @@ const auth = async (req,res, next)=>{
     else if(req.headers.authorization.startsWith("Bearer "))
             {
                 let token = req.headers.authorization.split(' ')[1]
+                
                 const decoded  = jwt.verify(token, 'assignment3')
-                const user = await User.findOne({_id : decoded._id, 'tokens.token': token})
-
+                const user = await User.findOne({_id : decoded._id})
                 if(!user){
                         throw new Error('please login')
                     }

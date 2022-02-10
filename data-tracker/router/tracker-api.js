@@ -13,19 +13,25 @@ const getRandom = require('../../utils/random')
 
 router.post('/add/message',auth,  async (req,res)=>{
     console.log('inside /add/message api');
-    // console.log(req.headers.uuid)
-    const messages ={...req.body, request_id : req.headers.uuid}
-    const message = new Message(messages)
-    await message.save()
-//     messages.forEach(async(element) => {
-        
-//             try{
-               
-//             }catch(err){
-//                 return  res.status(400).send(err)
-//             }
-// })
-    return res.status(200).send(messages)
+    console.log(req.header('CorelationId'))
+    req.body.forEach((element)=>{
+        element.user_id = req.user._id,
+        element.request_id = req.header('CorelationId')
+    })
+    
+    
+    try {
+        const message = await Message.insertMany(req.body, (error, result) => {
+            if (error) {
+                console.log(error)
+                return res.status(400).send({error: error._message, ok: false})  
+            }
+            res.status(201).send({result: result, ok: true})
+        })
+    } catch (error) {
+        console.log(error)
+        res.status(400).send({error: error, ok: false})
+    }
 })
 
 router.get('/get/messages',auth, async(req, res)=>{
