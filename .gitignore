@@ -1,1 +1,5 @@
 node_modules
+user-validator/node_modules
+data-tracker/node_modules
+data-validator/node_modules
+data-pusher/node_modules

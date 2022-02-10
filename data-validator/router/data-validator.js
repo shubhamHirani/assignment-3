@@ -1,19 +1,18 @@
 const express = require('express')
-const User = require('../../user-tracker/models/usermodel')
-const Message = require('../../data-tracker/models/msg-model')
+const User = require('../../models/usermodel')
+const Message = require('../../models/msg-model')
 const { error } = require('console')
 const auth = require('../../middleware/auth')
-const router = express.Router()
 const redis = require('redis')
-const JSONCache = require('redis-json');
-const  validator = require('express-validator')
 const jwt = require('jsonwebtoken')
 const { get } = require('express/lib/response')
 const amqp = require('amqplib')
 const getRandom = require('../../utils/random')
-const http = require('http')
 const axios = require('axios')
 const { response } = require('express')
+const {v4 : uuidv4} = require('uuid')
+
+const router = express.Router()
 
 router.get('/consumer', auth, async(req,res)=>{
     const connection = await amqp.connect("amqp://localhost:5672")
@@ -23,6 +22,7 @@ router.get('/consumer', auth, async(req,res)=>{
     
     channel.consume('assignment-3', async (messages) => {
         const input = JSON.parse(messages.content.toString())
+        const uuid = uuidv4()
         console.log("message: ", input)
         if(input.random%10 ===0){
             setTimeout(()=>{
@@ -42,11 +42,12 @@ router.get('/consumer', auth, async(req,res)=>{
             },4000)
         }
         const axios = require('axios').default;
-        // await axios({method:'post',url:'/add/message',
-        // baseURL : 'http://localhost:3000',data:{
-        //     firstName: 'Fred',
-        //     lastName: 'Flintstone'
-        //     },headers: { 'Authorization' : req.token}})
+        await axios({
+            method:'POST',
+            url:'http://127.0.0.1:3000/add/message',
+        data:[{...input, created_time : new Date()}],
+        headers: { 'Authorization' : `Bearer ${req.token}`,uuid: uuid}})
+        // .then(response=>console.log(response))
         //     .then(function (response) {
         //         console.log(response);
         //       })

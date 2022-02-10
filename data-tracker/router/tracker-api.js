@@ -1,30 +1,30 @@
 const express = require('express')
-const User = require('../models/usermodel')
-const Message = require('../models/msg-model')
+const User = require('../../models/usermodel')
+const Message = require('../../models/msg-model')
 const { error } = require('console')
-const auth = require('../middleware/auth')
+const auth = require('../../middleware/auth')
 const router = express.Router()
-const redis = require('redis')
-const JSONCache = require('redis-json');
 const  validator = require('express-validator')
 const jwt = require('jsonwebtoken')
 const { get } = require('express/lib/response')
-const amqp = require('amqplib')
-const getRandom = require('../utils/random')
+const getRandom = require('../../utils/random')
 
 
 
 router.post('/add/message',auth,  async (req,res)=>{
-    console.log('2')
-    const messages = req.body
-    messages.forEach(async(element) => {
-        const message = new Message(element)
-            try{
-                await message.save()
-            }catch(err){
-                return  res.status(400).send(err)
-            }
-})
+    console.log('inside /add/message api');
+    // console.log(req.headers.uuid)
+    const messages ={...req.body, request_id : req.headers.uuid}
+    const message = new Message(messages)
+    await message.save()
+//     messages.forEach(async(element) => {
+        
+//             try{
+               
+//             }catch(err){
+//                 return  res.status(400).send(err)
+//             }
+// })
     return res.status(200).send(messages)
 })
 

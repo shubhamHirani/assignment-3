@@ -1,8 +1,8 @@
 const express = require('express')
-const User = require('../models/usermodel')
-const Message = require('../models/msg-model')
+const User = require('../../models/usermodel')
+const Message = require('../../models/msg-model')
 const { error, count } = require('console')
-const auth = require('../middleware/auth')
+const auth = require('../../middleware/auth')
 const router = express.Router()
 const redis = require('redis')
 const JSONCache = require('redis-json');
@@ -10,7 +10,7 @@ const  validator = require('express-validator')
 const jwt = require('jsonwebtoken')
 const { get } = require('express/lib/response')
 const amqp = require('amqplib')
-const getRandom = require('../utils/random')
+const getRandom = require('../../utils/random')
 const client = redis.createClient({url : "redis://shubham:Hirani4536!@redis-11732.c239.us-east-1-2.ec2.cloud.redislabs.com:11732"})
 
 router.post('/pusher',auth, async(req,res)=>{
