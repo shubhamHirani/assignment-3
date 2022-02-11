@@ -21,7 +21,7 @@ router.post('/pusher',auth, async(req,res)=>{
         }
         const decoded  = jwt.verify(token, 'assignment3')
         const msg = req.body.message
-        const random = getRandom(60)
+        const random = 20
         const category = "direct"
         if(!decoded._id && !msg && !random){
             return res.send({error : 'please login or enter message'})
