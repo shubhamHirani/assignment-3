@@ -1,22 +1,14 @@
 const express = require('express')
-const User = require('../../models/usermodel')
-const Message = require('../../models/msg-model')
-const auth = require('../../middleware/auth')
-const jwt = require('jsonwebtoken')
-const { get } = require('express/lib/response')
-const amqp = require('amqplib')
-const getRandom = require('../../utils/random')
+const auth = require('../middleware/auth')
+const makeConnection = require('../db/amqp')
+const getRandom = require('../utils/random')
 const axios = require('axios').default;
-const { response } = require('express')
 const {v4 : uuidv4} = require('uuid')
-const { error } = require('console')
 
 const router = express.Router()
 
 router.get('/consumer', auth, async(req,res)=>{
-    const connection = await amqp.connect("amqp://localhost:5672")
-    const channel = await connection.createChannel()
-    await channel.assertQueue('assignment-3')
+    await makeConnection()
     // let input
     
     channel.consume('assignment-3', async (messages) => {

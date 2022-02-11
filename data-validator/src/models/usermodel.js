@@ -1,8 +1,11 @@
+const { ObjectId } = require('bson')
 const mongoose = require('mongoose')
+const { isAsyncFunction } = require('util/types')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
+// const { use } = require('../router/data-validator')
 const redis = require('redis')
-require('../db/db')
+const { sign } = require('crypto')
 
 const userSchema = new mongoose.Schema({
     userName: {
@@ -25,9 +28,9 @@ const userSchema = new mongoose.Schema({
 })
 userSchema.methods.generateAuthToken = async function(){
     const user= this
-    console.log(user._id.toString());
     const token = jwt.sign({ _id : user._id.toString()}, 'assignment3')
     await user.save()
+
     return token
 }
 
@@ -38,18 +41,18 @@ userSchema.statics.findByCredentials = async (name, password)=>{
     findkey = 'user_'+name
     const single = await client.json.get(findkey)
     console.log(single);
-    if(!single){
-        throw new Error('there is no such user with such credentials is available')
-    }
-    const isMatch = await bcrypt.compare(password, single.password)
-    if(!isMatch){
-        throw new Error('please enter valid password')
-    }
-    const user = await User.findById(single.id)
-        if(!user){
-        throw new Error('there is no suc user with such credentials is available')
-    }
-    return user
+            if(!single){
+                throw new Error('there is no such user with such credentials is available')
+            }
+            const isMatch = await bcrypt.compare(password, single.password)
+            if(!isMatch){
+                throw new Error('please enter valid password')
+            }
+            const user = await User.findById(single.id)
+                if(!user){
+                throw new Error('there is no suc user with such credentials is available')
+            }
+            return user
     }
 
 

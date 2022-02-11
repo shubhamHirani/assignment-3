@@ -1,13 +1,8 @@
 const express = require('express')
-const User = require('../../models/usermodel')
-const Message = require('../../models/msg-model')
-const { error } = require('console')
-const auth = require('../../middleware/auth')
+const Message = require('../models/msg-model')
+const auth = require('../middleware/auth')
 const router = express.Router()
-const  validator = require('express-validator')
-const jwt = require('jsonwebtoken')
-const { get } = require('express/lib/response')
-const getRandom = require('../../utils/random')
+
 
 
 
