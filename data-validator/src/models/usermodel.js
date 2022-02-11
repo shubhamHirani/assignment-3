@@ -7,25 +7,35 @@ const bcrypt = require('bcrypt')
 const redis = require('redis')
 const { sign } = require('crypto')
 
-const userSchema = new mongoose.Schema({
-    userName: {
-        type: String,
-        required: true,
-        unique: true,
-        minlength: 5,
-        maxlength: 15,
-        validate(value){
-            var myRegxp = /^([a-zA-Z0-9_-]){5,15}$/;
-        if (!myRegxp.test(value)) {
-            throw new Error("Username must be between 5 to 15 characters long and only alphanumeric is allowed")
-        }
-        }
-    },
-    password:{
-        type : String,
-        required: true
-    }
+const userSchema = joi.ob({
+    userName: joi.string()
+    .required()
+    .min(5)
+    .max(15)
+    .alphanum(),
+   
+    password: joi.string().required()
 })
+
+// const userSchema = new mongoose.Schema({
+//     userName: {
+//         type: String,
+//         required: true,
+//         unique: true,
+//         minlength: 5,
+//         maxlength: 15,
+//         validate(value){
+//             var myRegxp = /^([a-zA-Z0-9_-]){5,15}$/;
+//         if (!myRegxp.test(value)) {
+//             throw new Error("Username must be between 5 to 15 characters long and only alphanumeric is allowed")
+//         }
+//         }
+//     },
+//     password:{
+//         type : String,
+//         required: true
+//     }
+// })
 userSchema.methods.generateAuthToken = async function(){
     const user= this
     const token = jwt.sign({ _id : user._id.toString()}, 'assignment3')

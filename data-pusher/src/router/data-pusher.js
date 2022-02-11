@@ -14,9 +14,8 @@ router.post('/pusher',auth, async(req,res)=>{
         if(!token){
             console.log('please login');
         }
+        const msg =req.body
         const decoded  = jwt.verify(token, 'assignment3')
-        const msg = req.body.message
-        const random = getRandom(60)
         const category = "direct"
         if(!decoded._id && !msg && !random){
             return res.send({error : 'please login or enter message'})
@@ -27,7 +26,11 @@ router.post('/pusher',auth, async(req,res)=>{
         console.log(userkey)
         makeConnection()
         await client.json.NUMINCRBY(userkey, ".count", 1)
-        obj = {message:msg,user_id:decoded._id ,category:category,random:random}        
+        const obj = []
+        msg.forEach((element)=>{
+            obj.push({message:element.message,user_id:decoded._id ,category:category,random:getRandom(60)})
+        })
+                
         console.log(obj)
         await channel.sendToQueue('assignment-3', Buffer.from(JSON.stringify(obj)))
         console.log(`message sent succesfully.......`)
