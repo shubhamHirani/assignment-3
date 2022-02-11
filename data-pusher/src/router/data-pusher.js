@@ -4,7 +4,8 @@ const router = express.Router()
 const jwt = require('jsonwebtoken')
 const getRandom = require('../utils/random')
 const client = require('../db/redis')
-const makeConnection = require('../db/amqp')
+const amqp = require('amqplib')
+// const makeConnection = require('../db/amqp')
 
 router.post('/pusher',auth, async(req,res)=>{
     try{
@@ -24,13 +25,15 @@ router.post('/pusher',auth, async(req,res)=>{
         console.log(user.userName);
         const userkey = 'user_'+    user.userName
         console.log(userkey)
-        makeConnection()
+        const connection =await amqp.connect("amqp://localhost:5672")
+        const channel =await connection.createChannel()
+        await channel.assertQueue('assignment-3')
         await client.json.NUMINCRBY(userkey, ".count", 1)
+        console.log('1');
         const obj = []
         msg.forEach((element)=>{
-            obj.push({message:element.message,user_id:decoded._id ,category:category,random:getRandom(60)})
-        })
-                
+            obj.push({message:element.message,user_id:decoded._id ,category:category,random:10})
+        })     
         console.log(obj)
         await channel.sendToQueue('assignment-3', Buffer.from(JSON.stringify(obj)))
         console.log(`message sent succesfully.......`)
