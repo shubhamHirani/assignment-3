@@ -55,16 +55,18 @@ router.get('/get/messages',auth, async(req, res)=>{
     }
 })
 
-router.get('/get/date',auth, async(req, res)=>{
+router.get('/get/category',auth, async(req, res)=>{
     const category = req.query.category
-    const date = req.query.date
-
+    const fromDate = new Date(req.query.date)
+    const toDate = new Date(fromDate.getTime() + 86400000)
+    console.log(fromDate);
+    console.log(toDate);
     try{
-        if(category == undefined || date == undefined ){
+        if(!category|| !req.query.date){
             return res.send('please enter category and date values')
         }
         const count =await Message.countDocuments({
-            created_time: date,
+            created_time: {$gte: fromDate, $lt : toDate},
             category: category
         })
         res.status(201).send({'count is ':count})
