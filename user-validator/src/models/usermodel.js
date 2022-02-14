@@ -38,25 +38,30 @@ const userSchema = new mongoose.Schema({
 userSchema.methods.generateAuthToken = async function(){
     const user= this
     const token = jwt.sign({ _id : user._id.toString()}, 'assignment3')
-    console.log('1');
     const exist = await user.save()
     console.log(exist);
     return token
 }
 
 userSchema.statics.findByCredentials = async (name, password)=>{
+    console.log('1');
     const data = await client.sendCommand(['keys','*'])
     findkey = 'user_'+name
+    console.log(findkey);
     const single = await client.json.get(findkey)
     console.log(single);
+    const user = await User.findById(single.id)
+    console.log(user);
     if(!single){
         throw new Error('there is no such user inside redis is available')
     }
     const isMatch = await bcrypt.compare(password, single.password)
+    console.log(isMatch);
     if(!isMatch){
         throw new Error('please enter valid password')
     }
-    const user = await User.findById(single.id)
+    // const user = await User.findById(single.id)
+    console.log('1');
         if(!user){
         throw new Error('there is no such user with such credentials is available')
     }

@@ -39,7 +39,8 @@ router.post('/pusher',auth, async(req,res)=>{
         console.log(`message sent succesfully.......`)
         await channel.close()
         await connection.close()
-        return res.json({message:'data sent succesfully'})
+
+        return res.status(200).json({message:'data sent succesfully'})
 
     }catch(err){
         res.send(err)

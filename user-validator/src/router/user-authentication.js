@@ -1,9 +1,15 @@
 const express = require('express')
 const User = require('../models/usermodel')
 const router = express.Router()
-const client = require('../db/redis')
+// const client = require('../db/redis')
+const redis = require('redis')
+
 
 router.post('/create/user', async(req,res)=>{
+
+
+const client = redis.createClient({url : "redis://shubham:Hirani4536!@redis-11732.c239.us-east-1-2.ec2.cloud.redislabs.com:11732"})
+client.connect()
     const iuser = await User.findOne({userName:req.body.userName})
     if(iuser){
         res.status(409).send('user already exist');
@@ -26,16 +32,14 @@ router.post('/create/user', async(req,res)=>{
                 return res.status(400).send('please enter password of max-length = 12')
                          }
             else{
-                console.log('1');
                 const userkey = 'user_'+user.userName
-                
                 const token =await user.generateAuthToken()
-                console.log(token);
+                // console.log(token);
                 const userdata = {id:user._id, username:user.userName, password: user.password,token: token, count : 0}
-                console.log(userkey);
+                // console.log(userkey);400
                 await client.json.set(userkey,'.', userdata)
                  console.log(await client.json.get(userkey))
-                res.status(200).send({user, token})
+                res.status(201).send({user, token})
                 
                 }
         }
@@ -48,7 +52,7 @@ router.post('/create/user', async(req,res)=>{
 router.post('/login', async(req,res)=>{
     try{
     const user = await User.findByCredentials(req.body.userName, req.body.password)
-    res.send({user})
+    res.status(200).send({user})
     }
     catch(err){
         res.status(400).send(err)

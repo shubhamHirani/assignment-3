@@ -1,6 +1,8 @@
-const redis = require('redis')
+const amqp = require('amqplib')
+async function makeConnection (){
+const connection =await amqp.connect("amqp://localhost:5672")
+const channel =await connection.createChannel()
+await channel.assertQueue('assignment-3')
+}
 
-const client = redis.createClient({url : "redis://shubham:Hirani4536!@redis-11732.c239.us-east-1-2.ec2.cloud.redislabs.com:11732"})
-client.connect()
-
-module.exports = client
+module.exports = makeConnection
