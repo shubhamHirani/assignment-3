@@ -5,26 +5,27 @@ const jwt = require('jsonwebtoken')
 const getRandom = require('../utils/random')
 const client = require('../db/redis')
 const amqp = require('amqplib')
+const logger = require('../logger')
 // const makeConnection = require('../db/amqp')
 
-router.post('/pusher',auth, async(req,res)=>{
+router.post('/pusher', async(req,res)=>{
     try{
         console.log('1');
         
-        const token = req.token
+        const name = req.user.userName
+        key = 'user_'+name
+        const userdata = client.json.get(key)
+        const token = userdata.token
+        console.log(token);
         if(!token){
             console.log('please login');
         }
         const msg =req.body
         const decoded  = jwt.verify(token, 'assignment3')
-        const category = "direct"
-        if(!decoded._id && !msg && !random){
+        if(!decoded._id && !msg){
+            logger.error('please enter message or validate yourself')
             return res.send({error : 'please login or enter message'})
         }
-        const user = req.user
-        console.log(user.userName);
-        const userkey = 'user_'+    user.userName
-        console.log(userkey)
         const connection =await amqp.connect("amqp://localhost:5672")
         const channel =await connection.createChannel()
         await channel.assertQueue('assignment-3')
@@ -32,18 +33,19 @@ router.post('/pusher',auth, async(req,res)=>{
         console.log('1');
         const obj = []
         msg.forEach((element)=>{
-            obj.push({message:element.message,user_id:decoded._id ,category:category,random:10})
+            obj.push({message:element.message,user_id:decoded._id ,category:'direct',random:getRandom(60)})
         })     
         console.log(obj)
         await channel.sendToQueue('assignment-3', Buffer.from(JSON.stringify(obj)))
         console.log(`message sent succesfully.......`)
         await channel.close()
         await connection.close()
-
+        logger.info('messages pushed in to the queue')
         return res.status(200).json({message:'data sent succesfully'})
 
     }catch(err){
         res.send(err)
+        
     }
     
 })

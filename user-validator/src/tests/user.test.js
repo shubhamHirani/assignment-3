@@ -3,26 +3,30 @@ const app = require('../app')
 const User = require('../models/usermodel')
 const { userOneId, userOne, setupDatabase } = require('./fixtures/db')
 
-beforeEach(setupDatabase)
+// beforeEach(setupDatabase)
 
-test('Should signup a new user', async () => {
-    const response = await request(app).post('/create/user').send({
+// test('Should signup a new user', async () => {
+//     const response = await request(app).post('/create/user').send({
+//         userName: 'sukeshakha',
+//         password: 'sukesha123'
+//     }).expect(201)
+
+//     const user = await User.findById(response.body.user._id)
+//     expect(user).not.toBeNull()
+//     expect(user.password).not.toBe('sukesha123')
+
+// })
+// jest.setTimeout(() => {
+//     console.log('1');
+// }, 5000);
+
+test('should login existing user', async()=>{
+    const response = await request(app).post('/login').send({
         userName: 'sukeshakha',
         password: 'sukesha123'
-    }).expect(201)
-
-    const user = await User.findById(response.body.user._id)
-    expect(user).not.toBeNull()
-    expect(user.password).not.toBe('sukesha123')
-
+    }).set("Auth").expect(200)
+    
 })
-
-// test('should login existing user', async()=>{
-//     const response = await request(app).post('/login').send({
-//         userName: 'sukesha',
-//         password: 'sukesha123'
-//     }).expect(200)
-// })
 
 test('should not login non-existing user', async()=>{
     const response = await request(app).post('/login').send({
