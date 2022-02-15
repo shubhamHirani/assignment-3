@@ -56,6 +56,7 @@ router.get('/consumer', auth, async(req,res)=>{
             
             
 }, { noAck : true})
+res.status(200).send('done')
 
 })
 module.exports = router

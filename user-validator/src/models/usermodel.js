@@ -48,7 +48,7 @@ userSchema.statics.findByCredentials = async (name, password)=>{
     const data = await client.sendCommand(['keys','*'])
     findkey = 'user_'+name
     const single = await client.json.get(findkey)
-    let token = single.token
+    // let token = single.token
     console.log(single);
     // const user = await User.findById(single.id)
     // console.log(user._id)
@@ -62,11 +62,11 @@ userSchema.statics.findByCredentials = async (name, password)=>{
     }
     const user = await User.findById(single.id)
     console.log(user)
-        if(!user){
+    if(!user){
         throw new Error('there is no such user with such credentials is available')
     }
     console.log('1');
-    return (user,token)
+    return (user,single.token)
     }
 
 

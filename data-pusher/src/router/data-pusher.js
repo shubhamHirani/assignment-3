@@ -17,7 +17,7 @@ const amqp = require('amqplib')
  *          required: true
  */
 
-router.post('/pusher', async(req,res)=>{
+router.post('/pusher',auth, async(req,res)=>{
     try{
         console.log('1');
         

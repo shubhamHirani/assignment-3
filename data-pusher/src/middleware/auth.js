@@ -3,9 +3,11 @@ require('../db/db')
 const User = require('../models/usermodel')
 
 const auth = async (req,res, next)=>{
+    console.log('1');
     try{
         
         if(req.headers.authorization==null){
+            console.log('1');
         res.status(404).json({ 
             "status":"fail",
             "message":"first login for acees"

@@ -58,8 +58,11 @@ router.post('/create/user', async(req,res)=>{
 })
 router.post('/login', async(req,res)=>{
     try{
-    const {user,token} = await User.findByCredentials(req.body.userName, req.body.password)
+    const user= await User.findByCredentials(req.body.userName, req.body.password)
     // logger.info('logged in user ', user._id)
+    console.log('1');
+    // const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjA2MjY4Njc5MzU0Nzg5ZDIwNTEwMTMiLCJpYXQiOjE2NDQ1NzAyNDZ9.grcmZ9dqf7iBq-Bhe3RdTyxrjlJsvf0Hptnm8ll3_QM'
+    // req.headers.set('Authorization', `Bearer ${token}`)
     res.status(200).send({user})
     }
     catch(err){

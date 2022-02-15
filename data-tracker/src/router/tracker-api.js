@@ -8,13 +8,14 @@ const router = express.Router()
 
 router.post('/add/message',auth,  async (req,res)=>{
     console.log('inside /add/message api');
+    // req.header('CorelationId', 'esfwgvdb') 
     console.log(req.header('CorelationId'))
     req.body.forEach((element)=>{
         element.user_id = req.user._id,
         element.request_id = req.header('CorelationId')
     })
     
-    
+    console.log(req.body);
     try {
         const message = await Message.insertMany(req.body, (error, result) => {
             if (error) {
@@ -30,8 +31,9 @@ router.post('/add/message',auth,  async (req,res)=>{
 })
 
 router.get('/get/messages',auth, async(req, res)=>{
+    // console.log('1');
     if(!req.query.message){
-        return res.send({error : 'please enter message n query'})
+        return res.status(400).send({error : 'please enter message n query'})
     }
     const msg =req.query.message
     result = []
@@ -43,7 +45,7 @@ router.get('/get/messages',auth, async(req, res)=>{
                 result.push(element)
             }
         })
-        res.send(result)
+        res.status(200).send(result)
     }
     catch(err){
         res.send(err)
@@ -58,13 +60,13 @@ router.get('/get/category',auth, async(req, res)=>{
     console.log(toDate);
     try{
         if(!category|| !req.query.date){
-            return res.send('please enter category and date values')
+            return res.status(400).send('please enter category and date values')
         }
         const count =await Message.countDocuments({
             created_time: {$gte: fromDate, $lt : toDate},
             category: category
         })
-        res.status(201).send({'count is ':count})
+        res.status(200).send({'count is ':count})
     }
     catch(err){
         res.status(400).send(err)

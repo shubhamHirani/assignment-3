@@ -6,7 +6,7 @@ const app = require('../../src/app')
 // beforeEach(setupDatabase)
 
 test('should login existing user', async()=>{
-    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjA2MjY4Njc5MzU0Nzg5ZDIwNTEwMTMiLCJpYXQiOjE2NDQ1NzAyNDZ9.grcmZ9dqf7iBq-Bhe3RdTyxrjlJsvf0Hptnm8ll3_QM'
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjBiNGJlMDUyYzc5ZGM0MmY0Y2ZhNmYiLCJpYXQiOjE2NDQ5MDc0ODh9.HELGxPm3YIpV0QyIVI-bQ7hOM2OnXygQfR8hGTGDZkI'
     const response = await request(login).post('/login').set('Authorization', 'Bearer '+token).send({
         userName: 'sushmaj',
         password: 'sukesha123'
@@ -17,7 +17,10 @@ test('should login existing user', async()=>{
 
 
 test('send mesage when user is available', async()=>{
-    const sendmessage = await request(app).post('/pusher').send(
-       [{ message: "good afternoon"}]
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjBiNGJlMDUyYzc5ZGM0MmY0Y2ZhNmYiLCJpYXQiOjE2NDQ5MDc0ODh9.HELGxPm3YIpV0QyIVI-bQ7hOM2OnXygQfR8hGTGDZkI'
+    const sendmessage = await request(app).post('/pusher').set('Authorization', 'Bearer '+token).send(
+        [{
+           message: 'good morning'
+       },{message : 'good afternoon'}]
     ).expect(200)
 })
