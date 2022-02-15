@@ -1,9 +1,9 @@
 const express = require('express')
 const User = require('../models/usermodel')
 const router = express.Router()
-// const client = require('../db/redis')
+const client = require('../db/redis')
 const redis = require('redis')
-const logger = require('../logger')
+// const logger = require('../logger')
 
 router.post('/create/user', async(req,res)=>{
 
@@ -36,15 +36,16 @@ router.post('/create/user', async(req,res)=>{
             else{
                 const userkey = 'user_'+user.userName
                 const token =await user.generateAuthToken()
-                req.headers.set('Authorization', `Bearer ${token}`)
-                // console.log(token);
+                // req.headers.set('Authorization', `Bearer ${token}`)
+                console.log(token);
                 const userdata = {id:user._id, username:user.userName, password: user.password,token: `Bearer ${token}`, count : 0}
                 // console.log(userkey);400
                 await client.json.set(userkey,'.', userdata)
                  console.log(await client.json.get(userkey))
-                 logger.info('data is added into redis')
+                //  logger.info('data is added into redis')
+                 console.log('1');
                 res.status(201).send({user, token})
-                logger.info('user is added into database')
+                // logger.info('user is added into database')
                 
                 }
         }
@@ -58,8 +59,7 @@ router.post('/create/user', async(req,res)=>{
 router.post('/login', async(req,res)=>{
     try{
     const {user,token} = await User.findByCredentials(req.body.userName, req.body.password)
-    res.setHeader('Authorization', `Bearer ${token}`)
-    logger.info('logged in user ', user._id)
+    // logger.info('logged in user ', user._id)
     res.status(200).send({user})
     }
     catch(err){

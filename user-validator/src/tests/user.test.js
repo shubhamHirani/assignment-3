@@ -6,14 +6,15 @@ const { userOneId, userOne, setupDatabase } = require('./fixtures/db')
 // beforeEach(setupDatabase)
 
 // test('Should signup a new user', async () => {
-//     const response = await request(app).post('/create/user').send({
-//         userName: 'sukeshakha',
+//     const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjA2MjY4Njc5MzU0Nzg5ZDIwNTEwMTMiLCJpYXQiOjE2NDQ1NzAyNDZ9.grcmZ9dqf7iBq-Bhe3RdTyxrjlJsvf0Hptnm8ll3_QM'
+//     const response = await request(app).post('/create/user').set('Authorization', 'Bearer '+token).send({
+//         userName: 'sushmaj',
 //         password: 'sukesha123'
 //     }).expect(201)
-
-//     const user = await User.findById(response.body.user._id)
+//    const user = await User.findById(response.body.user._id)
 //     expect(user).not.toBeNull()
 //     expect(user.password).not.toBe('sukesha123')
+    
 
 // })
 // jest.setTimeout(() => {
@@ -21,11 +22,12 @@ const { userOneId, userOne, setupDatabase } = require('./fixtures/db')
 // }, 5000);
 
 test('should login existing user', async()=>{
-    const response = await request(app).post('/login').send({
-        userName: 'sukeshakha',
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjA2MjY4Njc5MzU0Nzg5ZDIwNTEwMTMiLCJpYXQiOjE2NDQ1NzAyNDZ9.grcmZ9dqf7iBq-Bhe3RdTyxrjlJsvf0Hptnm8ll3_QM'
+    const response = await request(app).post('/login').set('Authorization', 'Bearer '+token).send({
+        userName: 'sushmaj',
         password: 'sukesha123'
-    }).set("Auth").expect(200)
-    
+    }).expect(200)
+    // response.headers('Authorization', 'Bearer '+token)
 })
 
 test('should not login non-existing user', async()=>{

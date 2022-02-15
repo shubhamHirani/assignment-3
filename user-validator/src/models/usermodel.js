@@ -47,13 +47,11 @@ userSchema.statics.findByCredentials = async (name, password)=>{
     console.log('1');
     const data = await client.sendCommand(['keys','*'])
     findkey = 'user_'+name
-    console.log('1');
     const single = await client.json.get(findkey)
     let token = single.token
-    console.log('1');
-    console.log(single.id);
-    const user = await User.findById()
-    console.log(user._id)
+    console.log(single);
+    // const user = await User.findById(single.id)
+    // console.log(user._id)
     if(!single){
         throw new Error('there is no such user inside redis is available')
     }
@@ -62,8 +60,8 @@ userSchema.statics.findByCredentials = async (name, password)=>{
     if(!isMatch){
         throw new Error('please enter valid password')
     }
-    // const user = await User.findById(single.id)
-    console.log('1');
+    const user = await User.findById(single.id)
+    console.log(user)
         if(!user){
         throw new Error('there is no such user with such credentials is available')
     }

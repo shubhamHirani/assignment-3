@@ -1,10 +1,5 @@
-const express = require('express')
 const swaggerUi = require('swagger-ui-express')
-const dataPusher = require('./router/data-pusher')
 const swaggerJsDoc = require('swagger-jsdoc')
-// const specs = require('../public/api-docs')
-
-
 
 const options = {
     definition: {
@@ -24,10 +19,5 @@ const options = {
   };
   
   const specs = swaggerJsDoc(options);
-const app = express()
 
-app.use(express.json())
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs))
-app.use(dataPusher)
-
-module.exports = app
+  module.exports = specs

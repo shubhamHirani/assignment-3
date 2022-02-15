@@ -5,14 +5,13 @@ const app = require('../../src/app')
 // const { userOne, userTwo , setupDatabase} = require('./fixtures/db')
 // beforeEach(setupDatabase)
 
-test('should login first', async()=>{
- 
-    const response = await request(login).post('/login').send({
-        userName: 'mayursinh',
-        password: 'myhouse099'
+test('should login existing user', async()=>{
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjA2MjY4Njc5MzU0Nzg5ZDIwNTEwMTMiLCJpYXQiOjE2NDQ1NzAyNDZ9.grcmZ9dqf7iBq-Bhe3RdTyxrjlJsvf0Hptnm8ll3_QM'
+    const response = await request(login).post('/login').set('Authorization', 'Bearer '+token).send({
+        userName: 'sushmaj',
+        password: 'sukesha123'
     }).expect(200)
-    // console.log(response.body.user.userName)
-    
+    // response.headers('Authorization', 'Bearer '+token)
 })
 
 

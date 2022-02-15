@@ -5,8 +5,17 @@ const jwt = require('jsonwebtoken')
 const getRandom = require('../utils/random')
 const client = require('../db/redis')
 const amqp = require('amqplib')
-const logger = require('../logger')
+// const logger = require('../logger')
 // const makeConnection = require('../db/amqp')
+
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      message:
+ *          type : string
+ *          required: true
+ */
 
 router.post('/pusher', async(req,res)=>{
     try{
