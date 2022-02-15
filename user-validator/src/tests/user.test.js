@@ -3,10 +3,7 @@ const app = require('../app')
 const User = require('../models/usermodel')
 const { userOneId, userOne, setupDatabase } = require('./fixtures/db')
 
-// beforeEach(setupDatabase)
-
 // test('Should signup a new user', async () => {
-//     // const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjA2MjY4Njc5MzU0Nzg5ZDIwNTEwMTMiLCJpYXQiOjE2NDQ1NzAyNDZ9.grcmZ9dqf7iBq-Bhe3RdTyxrjlJsvf0Hptnm8ll3_QM'
 //     const response = await request(app).post('/create/user').send({
 //         userName: 'subhash',
 //         password: 'subhash123'
@@ -17,18 +14,14 @@ const { userOneId, userOne, setupDatabase } = require('./fixtures/db')
     
 
 // })
-// jest.setTimeout(() => {
-//     console.log('1');
-// }, 5000);
+
 // token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjBiNGJlMDUyYzc5ZGM0MmY0Y2ZhNmYiLCJpYXQiOjE2NDQ5MDc0ODh9.HELGxPm3YIpV0QyIVI-bQ7hOM2OnXygQfR8hGTGDZkI'
 
 test('should login existing user', async()=>{
-    // const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjA2MjY4Njc5MzU0Nzg5ZDIwNTEwMTMiLCJpYXQiOjE2NDQ1NzAyNDZ9.grcmZ9dqf7iBq-Bhe3RdTyxrjlJsvf0Hptnm8ll3_QM'
     const response = await request(app).post('/login').send({
         userName: 'subhash',
         password: 'subhash123'
     }).expect(200)
-    // response.headers('Authorization', 'Bearer '+token)
 })
 
 test('should not login non-existing user', async()=>{

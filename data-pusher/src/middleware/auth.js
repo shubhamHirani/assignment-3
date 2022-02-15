@@ -3,11 +3,9 @@ require('../db/db')
 const User = require('../models/usermodel')
 
 const auth = async (req,res, next)=>{
-    console.log('1');
     try{
         
         if(req.headers.authorization==null){
-            console.log('1');
         res.status(404).json({ 
             "status":"fail",
             "message":"first login for acees"
@@ -16,9 +14,8 @@ const auth = async (req,res, next)=>{
     else if(req.headers.authorization.startsWith("Bearer "))
             {
                 let token = req.headers.authorization.split(' ')[1]
-                
                 const decoded  = jwt.verify(token, 'assignment3')
-                const user = await User.findOne({_id : decoded._id})
+                const user = await User.findById(decoded._id)
                 if(!user){
                         throw new Error('please login')
                     }

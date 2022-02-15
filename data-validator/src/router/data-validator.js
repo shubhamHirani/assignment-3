@@ -18,7 +18,6 @@ router.get('/consumer', auth, async(req,res)=>{
     const connection = await amqp.connect("amqp://localhost:5672")
     const channel = await connection.createChannel()
     await channel.assertQueue('assignment-3')
-    // let input
     
     channel.consume('assignment-3', async (messages) => {
         const inputs= JSON.parse(messages.content.toString())
@@ -35,8 +34,6 @@ router.get('/consumer', auth, async(req,res)=>{
                            input.random = getRandom(60)
                            input.category='failed'
                            console.log("message: ", input)
-                        //    const data = [{message:input.message,category: input.category ,user_id: input.user_id, created_time : new Date()}]
-                       
                    }
                 })
             }
@@ -49,9 +46,6 @@ router.get('/consumer', auth, async(req,res)=>{
         let data = [{message:input.message,category: input.category ,user_id: input.user_id, created_time : new Date()}]
 
            await axios.post(url, data,config)
-            // setTimeout(() => {
-                
-            // }, time+time);
             })
             
             

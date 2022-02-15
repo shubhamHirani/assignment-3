@@ -6,8 +6,6 @@ const redis = require('redis')
 // const logger = require('../logger')
 
 router.post('/create/user', async(req,res)=>{
-
-
     const iuser = await User.findOne({userName:req.body.userName})
     if(iuser){
         res.status(409).send('user already exist');
@@ -36,14 +34,9 @@ router.post('/create/user', async(req,res)=>{
             else{
                 const userkey = 'user_'+user.userName
                 const token =await user.generateAuthToken()
-                // req.headers.set('Authorization', `Bearer ${token}`)
-                console.log(token);
-                const userdata = {id:user._id, username:user.userName, password: user.password,token: `Bearer ${token}`, count : 0}
-                // console.log(userkey);400
+                const userdata = {id:user._id, username:user.userName, password: user.password,token: token, count : 0}
                 await client.json.set(userkey,'.', userdata)
-                 console.log(await client.json.get(userkey))
                 //  logger.info('data is added into redis')
-                 console.log('1');
                 res.status(201).send({user, token})
                 // logger.info('user is added into database')
                 
@@ -59,11 +52,9 @@ router.post('/create/user', async(req,res)=>{
 router.post('/login', async(req,res)=>{
     try{
     const user= await User.findByCredentials(req.body.userName, req.body.password)
+    const token =await user.generateAuthToken()
     // logger.info('logged in user ', user._id)
-    console.log('1');
-    // const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjA2MjY4Njc5MzU0Nzg5ZDIwNTEwMTMiLCJpYXQiOjE2NDQ1NzAyNDZ9.grcmZ9dqf7iBq-Bhe3RdTyxrjlJsvf0Hptnm8ll3_QM'
-    // req.headers.set('Authorization', `Bearer ${token}`)
-    res.status(200).send({user})
+    res.status(200).send({user,token})
     }
     catch(err){
         res.status(400).send(err)

@@ -7,15 +7,10 @@ const router = express.Router()
 
 
 router.post('/add/message',auth,  async (req,res)=>{
-    console.log('inside /add/message api');
-    // req.header('CorelationId', 'esfwgvdb') 
-    console.log(req.header('CorelationId'))
     req.body.forEach((element)=>{
         element.user_id = req.user._id,
         element.request_id = req.header('CorelationId')
     })
-    
-    console.log(req.body);
     try {
         const message = await Message.insertMany(req.body, (error, result) => {
             if (error) {
@@ -56,8 +51,6 @@ router.get('/get/category',auth, async(req, res)=>{
     const category = req.query.category
     const fromDate = new Date(req.query.date)
     const toDate = new Date(fromDate.getTime() + 86400000)
-    console.log(fromDate);
-    console.log(toDate);
     try{
         if(!category|| !req.query.date){
             return res.status(400).send('please enter category and date values')
