@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken')
 const getRandom = require('../utils/random')
 const client = require('../db/redis')
 const amqp = require('amqplib')
-// const logger = require('../logger')
+const logger = require('../logger')
 // const makeConnection = require('../db/amqp')
 
 /**
@@ -24,12 +24,13 @@ router.post('/pusher',auth, async(req,res)=>{
         const userdata =await client.json.get(key)
         const token = userdata.token
         if(!token){
+            logger.error('no token available')
             console.log('please login');
         }
         const msg =req.body.messages
         const decoded  = jwt.verify(token, 'assignment3')
         if(!decoded._id && !msg){
-            // logger.error('please enter message or validate yourself')
+            logger.error('please enter message or validate yourself')
             return res.send({error : 'please login or enter message'})
         }
         const connection =await amqp.connect("amqp://localhost:5672")
@@ -44,7 +45,7 @@ router.post('/pusher',auth, async(req,res)=>{
         console.log(`message sent succesfully.......`)
         await channel.close()
         await connection.close()
-        // logger.info('messages pushed in to the queue')
+        logger.info('messages pushed in to the queue')
         return res.status(200).json({message:'data sent succesfully'})
 
     }catch(err){

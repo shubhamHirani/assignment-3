@@ -3,11 +3,12 @@ const User = require('../models/usermodel')
 const router = express.Router()
 const client = require('../db/redis')
 const redis = require('redis')
-// const logger = require('../logger')
+const logger = require('../logger')
 
 router.post('/create/user', async(req,res)=>{
     const iuser = await User.findOne({userName:req.body.userName})
     if(iuser){
+        logger.error('user already exist')
         res.status(409).send('user already exist');
     }
     else{
@@ -34,16 +35,18 @@ router.post('/create/user', async(req,res)=>{
             else{
                 const userkey = 'user_'+user.userName
                 const token =await user.generateAuthToken()
+                logger.info('authentication token generated')
                 const userdata = {id:user._id, username:user.userName, password: user.password,token: token, count : 0}
                 await client.json.set(userkey,'.', userdata)
-                //  logger.info('data is added into redis')
+                 logger.info('data is added into redis')
                 res.status(201).send({user, token})
-                // logger.info('user is added into database')
+                logger.info('user is added into database')
                 
                 }
         }
         
     }catch(err){
+        logger.error(err)
         res.status(400).send(err)
         
     }
@@ -53,10 +56,11 @@ router.post('/login', async(req,res)=>{
     try{
     const user= await User.findByCredentials(req.body.userName, req.body.password)
     const token =await user.generateAuthToken()
-    // logger.info('logged in user ', user._id)
+    logger.info('logged in user '+user.userName)
     res.status(200).send({user,token})
     }
     catch(err){
+        logger.error(err)
         res.status(400).send(err)
         
     }
