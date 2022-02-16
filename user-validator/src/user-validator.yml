@@ -1,0 +1,101 @@
+definition:
+  openapi: 3.0.0
+  info:
+    title: user-validator
+    version: '1.0'
+  servers:
+    - url: 'http://localhost:3003'
+  paths:
+    /create/user:
+      parameters: []
+      post:
+        summary: ''
+        operationId: post-create-user
+        responses:
+          '201':
+            description: this will send user credentials and jsonwebtoken as response
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    user:
+                      type: object
+                      properties:
+                        userName:
+                          type: string
+                        password:
+                          type: string
+                        _id:
+                          type: string
+                    token:
+                      type: string
+                examples:
+                  example-1:
+                    value:
+                      user:
+                        userName: user-1
+                        password: $2b$08$hekqrqavn9f0vQXYILagR./i.5SjSp7cDov5DfcK2Cigx0K8DvKDm
+                        _id: 620b87e806008249a962a3fa
+                        __v: 0
+                      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjBiODdlODA2MDA4MjQ5YTk2MmEzZmEiLCJpYXQiOjE2NDQ5MjI4NTZ9.Sqf8Aj3OS9cHUeExIj_qN189AIpIqg3ZFulrTvZR8mM
+        description: this api endpoint will create user and save it to the database
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples:
+                example-1:
+                  value:
+                    userName: user-1
+                    password: user123
+          description: this will take username and password to save user credentials
+    /login:
+      parameters: []
+      post:
+        summary: ''
+        operationId: post-login
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    user:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                        userName:
+                          type: string
+                        password:
+                          type: string
+                    token:
+                      type: string
+        description: this api endpoint will  login user
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  components:
+    schemas:
+      User:
+        title: User
+        type: object
+        description: ''
+        examples:
+          - userName: user-1
+            password: user123
+        properties:
+          userName:
+            type: string
+          password:
+            type: string
+        required:
+          - userName
+          - password
+apis : ['./src/router/*.js']

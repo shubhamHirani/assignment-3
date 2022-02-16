@@ -1,6 +1,6 @@
 const app = require('./app')
 
-const port = process.env.port||3004
+const port = process.env.PORT
 
 app.get('/', (req,res)=>{
     console.log('inside tracker api');

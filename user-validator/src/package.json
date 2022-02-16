@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "dev": "nodemon src/index.js",
+    "dev": "env-cmd -f ../config/dev.env nodemon src/index.js",
     "test": "jest --watch --runInBand"
   },
   "keywords": [],
@@ -15,11 +15,15 @@
     "amqp": "^0.2.7",
     "amqplib": "^0.8.0",
     "bcrypt": "^5.0.1",
+    "env-cmd": "^10.1.0",
     "express": "^4.17.2",
     "joi": "^17.6.0",
+    "js-yaml": "^4.1.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.1",
     "redis": "^4.0.3",
+    "swagger-jsdoc": "^6.1.0",
+    "swagger-ui-express": "^4.3.0",
     "winston": "^3.6.0"
   },
   "devDependencies": {

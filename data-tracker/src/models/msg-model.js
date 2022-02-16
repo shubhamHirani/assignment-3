@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const {v4: uuid} = require('uuid')
+const {v4: uuid, stringify} = require('uuid')
 
 // const messageSchema = joi.object({
 //     message: joi.string().required().error('message is required'),
@@ -14,7 +14,9 @@ const messageSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    category: 'direct' | 'retired' | 'failed',
+    category: {
+        type: String
+    },
     created_time : {
         type : Date 
     },

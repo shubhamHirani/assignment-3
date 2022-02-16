@@ -1,2 +1,24 @@
 2022-02-15T12:26:37.163Z - [INFO   ] - logged in user 620b87e806008249a962a3fa
 2022-02-15T12:26:52.414Z - [INFO   ] - logged in user fcdvgsfv
+2022-02-16T06:23:01.110Z - [ERROR  ] - user already exist
+2022-02-16T06:23:06.150Z - [INFO   ] - authentication token generated
+2022-02-16T06:23:06.457Z - [INFO   ] - data is added into redis
+2022-02-16T06:23:06.459Z - [INFO   ] - user is added into database
+2022-02-16T06:26:47.241Z - [INFO   ] - authentication token generated
+2022-02-16T06:26:47.546Z - [INFO   ] - data is added into redis
+2022-02-16T06:26:47.548Z - [INFO   ] - user is added into database
+2022-02-16T06:26:54.076Z - [INFO   ] - logged in user user1
+2022-02-16T06:51:46.030Z - [ERROR  ] - there is no such user inside redis is available
+2022-02-16T06:52:37.909Z - [ERROR  ] - there is no such user inside redis is available
+2022-02-16T06:52:54.212Z - [INFO   ] - logged in user user1
+2022-02-16T07:29:57.343Z - [INFO   ] - authentication token generated
+2022-02-16T07:29:57.654Z - [INFO   ] - data is added into redis
+2022-02-16T07:29:57.656Z - [INFO   ] - user is added into database
+2022-02-16T08:46:50.291Z - [INFO   ] - authentication token generated
+2022-02-16T08:46:50.616Z - [INFO   ] - data is added into redis
+2022-02-16T08:46:50.620Z - [INFO   ] - user is added into database
+2022-02-16T08:47:22.089Z - [ERROR  ] - user already exist
+2022-02-16T08:47:31.852Z - [INFO   ] - authentication token generated
+2022-02-16T08:47:32.173Z - [INFO   ] - data is added into redis
+2022-02-16T08:47:32.176Z - [INFO   ] - user is added into database
+2022-02-16T09:45:52.641Z - [ERROR  ] - user already exist

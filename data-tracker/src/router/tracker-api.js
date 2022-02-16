@@ -8,12 +8,12 @@ const logger = require('../logger')
 
 
 router.post('/add/message',auth,  async (req,res)=>{
-    req.body.forEach((element)=>{
+    req.body.messages.forEach((element)=>{
         element.user_id = req.user._id,
         element.request_id = req.header('CorelationId')
     })
     try {
-        const message = await Message.insertMany(req.body, (error, result) => {
+        const message = await Message.insertMany(req.body.messages, (error, result) => {
             if (error) {
                 logger.error(error)
                 console.log(error)
@@ -48,7 +48,7 @@ router.get('/get/messages',auth, async(req, res)=>{
     }
     catch(err){
         logger.error(err)
-        res.send(err)
+        res.status(400).send({"error ":err})
     }
 })
 
@@ -70,7 +70,7 @@ router.get('/get/category',auth, async(req, res)=>{
     }
     catch(err){
         logger.error(err)
-        res.status(400).send(err)
+        res.status(400).send({"error ":err})
     }
 })
 

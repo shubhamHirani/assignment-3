@@ -28,7 +28,7 @@ router.post('/pusher',auth, async(req,res)=>{
             console.log('please login');
         }
         const msg =req.body.messages
-        const decoded  = jwt.verify(token, 'assignment3')
+        const decoded  = jwt.verify(token, process.env.JWT_SECRET)
         if(!decoded._id && !msg){
             logger.error('please enter message or validate yourself')
             return res.send({error : 'please login or enter message'})
@@ -49,7 +49,7 @@ router.post('/pusher',auth, async(req,res)=>{
         return res.status(200).json({message:'data sent succesfully'})
 
     }catch(err){
-        res.send(err)
+        res.status(400).send({"error ":err})
         
     }
     

@@ -1,0 +1,107 @@
+definition:
+  openapi: 3.0.0
+  info:
+    title: data-validator
+    version: '1.0'
+    summary: api end point for data-validator service
+    description: this api will validate messages that is coming form data-pusher service
+  servers:
+    - url: 'http://localhost:3002'
+  paths:
+    /consumer:
+      parameters: []
+      get:
+        summary: Get messages
+        tags: []
+        responses:
+          '200':
+            description: User Found
+            content:
+              application/json:
+                schema:
+                  type: string
+                examples:
+                  Get User Alice Smith:
+                    value: done
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+                examples:
+                  example-1:
+                    value:
+                      error: please authenticate
+          '404':
+            description: User Not Found
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                    message:
+                      type: string
+                examples:
+                  example-1:
+                    value:
+                      status: fail
+                      message: first login for acees
+        operationId: get-users-userId
+        description: this api will get the messages coming from rabbitMQ channel
+        parameters:
+          - schema:
+              type: string
+            in: header
+            name: Authorization
+            description: set authorization token
+            required: true
+    /user: {}
+  components:
+  schemas:
+    User:
+      title: User
+      type: object
+      description: ''
+      examples:
+        - id: 142
+          firstName: Alice
+          lastName: Smith
+          email: alice.smith@gmail.com
+          dateOfBirth: '1997-10-31'
+          emailVerified: true
+          signUpDate: '2019-08-24'
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the given user.
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        dateOfBirth:
+          type: string
+          format: date
+          example: '1997-10-31'
+        emailVerified:
+          type: boolean
+          description: Set to true if the user's email has been verified.
+        createDate:
+          type: string
+          format: date
+          description: The date that the user was created.
+      required:
+        - id
+        - firstName
+        - lastName
+        - email
+        - emailVerified
+apis: ['./src/router/*.js']

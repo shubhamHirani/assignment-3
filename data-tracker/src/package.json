@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon index.js",
-    "dev": "nodemon index.js",
+    "dev": "env-cmd -f ../config/dev.env nodemon index.js",
     "test": "jest --watch --runInBand"
   },
   "keywords": [],
@@ -13,10 +13,13 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "env-cmd": "^10.1.0",
     "express": "^4.17.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.1",
     "redis": "^4.0.3",
+    "swagger-jsdoc": "^6.1.0",
+    "swagger-ui-express": "^4.3.0",
     "uuid": "^8.3.2",
     "winston": "^3.6.0"
   },

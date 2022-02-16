@@ -1,3 +1,3 @@
 const mongoose = require('mongoose')
 
-mongoose.connect('mongodb://localhost/assignment3', {useNewUrlParser : true})
+mongoose.connect(process.env.MONGOOSE_URL , {useNewUrlParser : true})

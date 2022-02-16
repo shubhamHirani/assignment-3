@@ -32,7 +32,7 @@ router.get('/consumer', auth, async(req,res)=>{
 
         await setData()
         await logger.info('category is set')
-        const url = 'http://127.0.0.1:3004/add/message'
+        const url = process.env.API_URL
         const config = {
             headers: { 'Authorization' : `Bearer ${req.token}`, "CorelationId" : uuidv4()}
         }

@@ -15,7 +15,7 @@ const auth = async (req,res, next)=>{
             {
                 let token = req.headers.authorization.split(' ')[1]
                 
-                const decoded  = jwt.verify(token, 'assignment3')
+                const decoded  = jwt.verify(token, process.env.JWT_SECRET)
                 const user = await User.findOne({_id : decoded._id})
                 if(!user){
                         throw new Error('please login')

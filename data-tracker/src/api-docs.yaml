@@ -1,0 +1,272 @@
+definition:
+  openapi: 3.0.0
+  info:
+    title: data-tracker
+    version: '1.0'
+    summary: this is data-tracker api service
+    description: this api will keep the track the data
+  servers:
+    - url: 'http://localhost:3004'
+  paths:
+    /get/messages:
+      parameters: []
+      get:
+        summary: Get Messages when provided text is available
+        tags: []
+        responses:
+          '200':
+            description: User Found
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      message:
+                        type: string
+                      category:
+                        type: string
+                      created_time:
+                        type: string
+                      user_id:
+                        type: string
+                examples:
+                  Get User Alice Smith:
+                    value:
+                      id: 142
+                      firstName: Alice
+                      lastName: Smith
+                      email: alice.smith@gmail.com
+                      dateOfBirth: '1997-10-31'
+                      emailVerified: true
+                      signUpDate: '2019-08-24'
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+                examples:
+                  example-1:
+                    value:
+                      error: not valid
+          '404':
+            description: User Not Found
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                    message:
+                      type: string
+                examples:
+                  example-1:
+                    value:
+                      status: fail
+                      message: first login for acees
+        operationId: get-users-userId
+        description: Retrieve the information of the user with the matching user ID.
+        parameters:
+          - schema:
+              type: string
+            in: query
+            name: message
+            description: enter the text which should be available in the messages
+            required: true
+          - schema:
+              type: string
+            in: header
+            name: Authorization
+            description: set authorization token
+            required: true
+    /get/category:
+      parameters: []
+      get:
+        summary: ''
+        operationId: get-get-category
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    count is:
+                      type: number
+                examples:
+                  example-1:
+                    value:
+                      count is: 0
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+                examples:
+                  example-1:
+                    value:
+                      error: not valid
+          '404':
+            description: Not Found
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                    message:
+                      type: string
+                examples:
+                  example-1:
+                    value:
+                      status: fail
+                      message: first login for acees
+        description: this will return messages with given category and given date
+        parameters:
+          - schema:
+              type: string
+            in: query
+            name: category
+            description: category among 'direct' 'retired' and 'failed'
+            required: true
+          - schema:
+              type: string
+            in: query
+            name: date
+            description: date
+            required: true
+          - schema:
+              type: string
+            in: header
+            name: Authorization
+            description: set authorization token
+            required: true
+    /add/message:
+      post:
+        summary: ''
+        operationId: post-add-message
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    result:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          message:
+                            type: string
+                          category:
+                            type: string
+                          request_id:
+                            type: string
+                          created_time:
+                            type: string
+                          user_id:
+                            type: string
+                          _id:
+                            type: string
+                    ok:
+                      type: boolean
+                examples:
+                  example-1:
+                    value:
+                      result:
+                        - message: good night
+                          category: failed
+                          created_time: '2022-02-12T04:04:23.000Z'
+                          request_id: sfsgdrfbdcc
+                          user_id: 620b87e806008249a962a3fa
+                          _id: 620cc7213717e068bc207d00
+                          __v: 0
+                      ok: true
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+                examples:
+                  example-1:
+                    value:
+                      error: not valid
+          '404':
+            description: Not Found
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                    message:
+                      type: string
+                examples:
+                  example-1:
+                    value:
+                      status: fail
+                      message: first login for acees
+        description: this endpoint is used to manually  insert message in the database
+        parameters:
+          - schema:
+              type: string
+            in: header
+            name: Authorization
+            description: set authorization token
+            required: true
+          - schema:
+              type: string
+            in: header
+            name: CorelationId
+            required: true
+            description: sets request id
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/message'
+              examples:
+                example-1:
+                  value: {}
+  components:
+    schemas:
+      message:
+        title: Message model
+        type: object
+        description: this is the message model that a user should enter in post method
+        examples:
+          - message: good night
+            category: failed
+            created_time: '2022-02-12 09:34:23'
+            user_id: 500ghytrh
+        properties:
+          message:
+            type: string
+          category:
+            type: string
+          created_time:
+            type: string
+          user_id:
+            type: string
+apis : ['./src/router/*.js']

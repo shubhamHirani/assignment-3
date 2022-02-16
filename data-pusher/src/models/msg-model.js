@@ -8,7 +8,9 @@ const messageSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    category: 'direct' | 'retired' | 'failed',
+    category: {
+        type: String
+    },
     created_time : {
         type : Date 
     },

@@ -1,23 +1,23 @@
 const request = require('supertest')
 const app = require('../app')
 
-// test('should add data', async ()=>{
-//     const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjBiNGJlMDUyYzc5ZGM0MmY0Y2ZhNmYiLCJpYXQiOjE2NDQ5MDc0ODh9.HELGxPm3YIpV0QyIVI-bQ7hOM2OnXygQfR8hGTGDZkI'
-//     const response = await request(app).post('/add/message').set('Authorization','Bearer '+token).send(
-//         [{
-//             message: 'good bye',
-//             category : "direct",
-//             created_time : '2022-02-03 14:09:45',
-//             user_id : '6206268679354789d2051013'
-//         },{
-//             message: 'good night',
-//             category : "direct",
-//             created_time : '2022-02-03 14:09:45',
-//             user_id : '6206268679354789d2051013'
-//         }]
-//     ).set('CorelationId', 'dvsedggb').expect(201)
+test('should add data', async ()=>{
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjBiNGJlMDUyYzc5ZGM0MmY0Y2ZhNmYiLCJpYXQiOjE2NDQ5MDc0ODh9.HELGxPm3YIpV0QyIVI-bQ7hOM2OnXygQfR8hGTGDZkI'
+    const response = await request(app).post('/add/message').set('Authorization','Bearer '+token).send(
+        [{
+            message: 'good bye',
+            category : "direct",
+            created_time : '2022-02-03 14:09:45',
+            user_id : '6206268679354789d2051013'
+        },{
+            message: 'good night',
+            category : "direct",
+            created_time : '2022-02-03 14:09:45',
+            user_id : '6206268679354789d2051013'
+        }]
+    ).set('CorelationId', 'dvsedggb').expect(201)
 
-// }) a
+}) 
 
 test('should not add data without authorization', async ()=>{
     const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjBiNGJlMDUyYzc5ZGM0MmY0Y2ZhNmYiLCJpYXQiOjE2NDQ5MDc0ODh9.HELGxPm3YIpV0QyIVI-bQ7hOM2OnXygQfR8hGTGDZkI'

@@ -1,0 +1,122 @@
+definition:
+  openapi: 3.0.0
+  info:
+    title: data-pusher
+    version: '1.0'
+  servers:
+    - url: 'http://localhost:3000'
+  paths:
+    /pusher:
+      parameters: []
+      post:
+        summary: ''
+        operationId: post-pusher
+        responses:
+          '200':
+            description: o
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                examples:
+                  example-1:
+                    value:
+                      message: data sent succesfully
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+                examples:
+                  example-1:
+                    value:
+                      error: not valid
+          '404':
+            description: Not Found
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                    message:
+                      type: string
+                examples:
+                  example-1:
+                    value:
+                      status: fail
+                      message: first login for acees
+        description: 'this endpoint will push the data to rabbitMQ '
+        parameters:
+          - schema:
+              type: string
+            in: header
+            name: Authorization
+            description: authorization token
+            required: true
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+              examples:
+                example-1:
+                  value:
+                    messages:
+                      - message: my name
+                      - message: your name
+          description: this will take messages and send it to pusher api
+    /user: {}
+  components:
+    schemas:
+      Message:
+        title: message
+        type: object
+        description: ''
+        examples:
+          - messages:
+              - message: my name
+              - message: your name
+        properties:
+          messages:
+            type: array
+            items:
+              type: object
+              properties:
+                message:
+                  type: string
+              required:
+                - message
+        required:
+          - messages
+
+      schemas:
+        Message:
+          title: message
+          type: object
+          description: ''
+          examples:
+            - messages:
+                - message: my name
+                - message: your name
+          properties:
+            messages:
+              type: array
+              items:
+                type: object
+                properties:
+                  message:
+                    type: string
+                required:
+                  - message
+          required:
+            - messages
+apis : ['./src/routers/*.js']

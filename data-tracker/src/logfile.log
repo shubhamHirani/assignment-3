@@ -12,3 +12,16 @@
 2022-02-15T12:17:27.829Z - [INFO   ] - data is inserted in the database
 2022-02-15T12:18:45.520Z - [INFO   ] - data is inserted in the database
 2022-02-15T12:18:45.522Z - [INFO   ] - data is inserted in the database
+2022-02-16T07:24:17.082Z - [INFO   ] - data is fetched using message query
+2022-02-16T07:30:24.648Z - [INFO   ] - data is fetched using message query
+2022-02-16T09:00:19.507Z - [INFO   ] - data is inserted in the database
+2022-02-16T09:00:19.510Z - [INFO   ] - data is inserted in the database
+2022-02-16T09:06:33.228Z - [INFO   ] - data is inserted in the database
+2022-02-16T09:06:33.232Z - [INFO   ] - data is inserted in the database
+2022-02-16T09:21:50.924Z - [INFO   ] - data is inserted in the database
+2022-02-16T09:21:50.925Z - [INFO   ] - data is inserted in the database
+2022-02-16T09:25:08.553Z - [INFO   ] - data is fetched using date and category query
+2022-02-16T09:41:37.600Z - [ERROR  ] - Message validation failed: user_id: Path `user_id` is required., request_id: Path `request_id` is required., message: Path `message` is required.
+2022-02-16T09:42:28.512Z - [ERROR  ] - Message validation failed: request_id: Path `request_id` is required.
+2022-02-16T09:42:57.134Z - [INFO   ] - data is inserted in the database
+2022-02-16T09:52:13.361Z - [INFO   ] - data is inserted in the database
